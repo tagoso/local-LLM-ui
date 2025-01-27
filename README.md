@@ -53,6 +53,12 @@ node server.js
 ### 6. (Optional) Configure Apache
 
 - Install and configure Apache to serve the frontend (`ollama-frontend`) at your desired domain or subdomain.
+- For basic setup:
+  - Ensure you have Apache installed on your system.
+  - Edit your httpd.conf file to include a <VirtualHost> block pointing to the frontend directory.
+- (Optional) Set up SSL/TLS for secure communication using Let's Encrypt or similar tools.
+  - Use mod_ssl for enabling HTTPS.
+  - Generate certificates with a tool like certbot.
 
 ### 7. Access the Frontend
 
