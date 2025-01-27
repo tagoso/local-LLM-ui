@@ -1,5 +1,6 @@
 # Secretary AI
-![images/CleanShot%202025-01-27%20at%2023.48.50%402x.png](https://github.com/tagoso/secretary-AI/blob/1ccc172b067a30da887a63765cba457f280aaa3a/images/CleanShot%202025-01-27%20at%2023.48.50%402x.png)
+<img src="https://github.com/tagoso/secretary-AI/blob/1ccc172b067a30da887a63765cba457f280aaa3a/images/CleanShot%202025-01-27%20at%2023.48.50%402x.png" alt="Tagi Interface Screenshot" style="max-width: 500px;">
+
 
 This repository contains a reference implementation of the **Secretary AI** project, a lightweight and friendly AI assistant.
 
