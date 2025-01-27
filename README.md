@@ -48,7 +48,7 @@ node server.js
   ```bash
   ollama create <model_name> -f <path_to_Modelfile>
   ```
-- **Here is the fan part** -- Customize the Modelfile to suit your preferences. Edit the file to define behavior, rules, or responses specific to your needs before creating the model.
+- **This is the fun part** -- Customize the Modelfile to suit your preferences. Edit the file to define behavior, rules, or responses specific to your needs before creating the model. You can also modify the temprature and other parameters.
 
 ### 6. (Optional) Configure Apache
 
