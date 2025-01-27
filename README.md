@@ -64,7 +64,7 @@ Replace `<PORT>` with the value specified in your `.env` file.
 
 ### 8. Test the AI Assistant
 
-Use the chat interface to interact with **Tagi**, your AI secretary. Sample questions are available to help you get started.
+Use the chat interface to interact with your AI secretary. Sample questions are available to help you get started.
 
 ---
 
