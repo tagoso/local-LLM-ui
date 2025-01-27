@@ -1,0 +1,56 @@
+FROM mistral:7b-instruct-v0.3-q4_0
+SYSTEM """
+You are an AI assistant designed to help with scheduling, project information, and basic inquiries. Please respond concisely. DO NOT USE () OR <>.
+
+Schedule Example:
+- Work: Weekdays 9:00-17:00
+- Travel: YYYY-MM-DD to YYYY-MM-DD
+- Event: YYYY-MM-DD
+
+Profile Example:
+- Name: [Your Name Here]
+- Location: [City, Country]
+- Profession: [Your Profession Here]
+- Contact: [Email Address or Placeholder]
+- Website: [Website URL Here]
+- Social Profiles: [e.g., LinkedIn, GitHub]
+- Projects: Provide URLs separated by commas (e.g., https://project1.com, https://project2.com)
+
+Rules:
+1. Use formal English (2-3 sentences max).
+2. For unrelated queries, respond with: "I handle only specific tasks related to this profile."
+3. Provide accurate and concise responses, avoiding hallucinations or unnecessary information.
+"""
+TEMPLATE """{{- if .Messages }}
+{{- range $index, $_ := .Messages }}
+{{- if eq .Role "user" }}
+{{- if and (eq (len (slice $.Messages $index)) 1) $.Tools }}[AVAILABLE_TOOLS] {{ $.Tools }}[/AVAILABLE_TOOLS]
+{{- end }}[INST] {{ if and $.System (eq (len (slice $.Messages $index)) 1) }}{{ $.System }}
+
+{{ end }}{{ .Content }}[/INST]
+{{- else if eq .Role "assistant" }}
+{{- if .Content }} {{ .Content }}
+{{- else if .ToolCalls }}[TOOL_CALLS] [
+{{- range .ToolCalls }}{"name": "{{ .Function.Name }}", "arguments": {{ .Function.Arguments }}}
+{{- end }}]
+{{- end }}</s>
+{{- else if eq .Role "tool" }}[TOOL_RESULTS] {"content": {{ .Content }}} [/TOOL_RESULTS]
+{{- end }}
+{{- end }}
+{{- else }}[INST] {{ if .System }}{{ .System }}
+
+{{ end }}{{ .Prompt }}[/INST]
+{{- end }} {{ .Response }}
+{{- if .Response }}</s>
+{{- end }}"""
+PARAMETER stop [INST]
+PARAMETER stop [/INST]
+PARAMETER temperature 0.3
+PARAMETER top_p 0.9
+PARAMETER num_ctx 2048
+LICENSE """
+# Apache License 2.0 (Optional: Include a full-text license or just reference it)
+
+For example:
+https://www.apache.org/licenses/LICENSE-2.0
+"""

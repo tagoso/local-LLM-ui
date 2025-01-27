@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>AI Assistant Chat</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+		body { 
+			font-family: 'Roboto', Arial, sans-serif;
+			margin: 20px; 
+			background-color: #f9f9f9; 
+		}
+		h1 {
+			font-size: 1.17em;
+			font-weight: bold;
+			margin: 0 auto 10px auto;
+			text-align: left;
+			max-width: 600px;
+		}
+		#chat { 
+			max-width: 600px; 
+			margin: auto; 
+			background-color: #ffffff; 
+			padding: 10px; 
+			border-radius: 8px; 
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+		}
+		#messages { 
+			border: 1px solid #ccc; 
+			border-radius: 4px;
+			padding: 10px; 
+			height: 60vh; 
+			overflow-y: scroll; 
+			background-color: #ffffff; 
+		}
+		.sample-question { 
+			padding: 10px 10px; 
+			cursor: pointer; 
+			color: grey;
+		}
+		.message {
+			padding: 8px 8px;
+			border-radius: 8px; 
+			max-width: 95%; 
+			line-height: 1.6; 
+			word-wrap: break-word; 
+			word-break: break-word; 
+			overflow-wrap: anywhere; 
+		}
+		.User {
+			background-color: #d4edda;
+			border: 1px solid #c3e6cb; 
+			align-self: flex-end; 
+			text-align: right; 
+			font-weight: normal; 
+			color: #333;
+		}
+		.gradient-text {
+			font-size: inherit; 
+			font-weight: bold; 
+			background: linear-gradient(90deg, #0078D7, #8A2BE2, #FF4500);
+			-webkit-background-clip: text; 
+			-webkit-text-fill-color: transparent; 
+			display: inline; 
+		}
+		.system { 
+			color: red;
+			font-style: italic; 
+		}
+		#input { 
+			margin-top: 10px; 
+			display: flex; 
+		}
+		#input input { 
+			flex: 1; 
+			padding: 10px; 
+			font-size: 16px; 
+			border: 1px solid #ccc; 
+			border-radius: 4px; 
+			margin-right: 5px; 
+		}
+		#input button { 
+			padding: 10px; 
+			font-size: 16px; 
+			border: 1px solid #ccc; 
+			border-left: none; 
+			border-radius: 4px; 
+			background-color: #007bff; 
+			color: white; 
+			cursor: pointer; 
+		}
+		#input button:hover { 
+			background-color: #0056b3; 
+		}
+		@keyframes blink {
+			0%, 100% { opacity: 1; }
+			50% { opacity: 0; }
+		}
+		.blink {
+			display: inline-block; 
+			animation: blink 1s infinite; 
+		}
+	</style>
+</head>
+<body>
+	<h1>Hi, I'm your <span class="gradient-text">AI Assistant</span>!</h1>
+	<div id="chat">
+		<div id="messages">
+			<!-- Add sample questions -->
+			<div class="sample-question" onclick="sendSampleQuestion('What is your purpose?')">Ask: "What is your purpose?"</div>
+			<div class="sample-question" onclick="sendSampleQuestion('How can I use this tool?')">Ask: "How can I use this tool?"</div>
+			<div class="sample-question" onclick="sendSampleQuestion('Tell me something interesting!')">Ask: "Tell me something interesting!"</div>
+		</div>
+		<div id="input">
+			<input type="text" id="messageInput" placeholder="Type your message...">
+			<button onclick="sendMessage()">Send</button>
+		</div>
+	</div>
+
+	<script>
+		const messagesDiv = document.getElementById('messages');
+
+		// Function to convert plain text URLs into clickable links
+		function convertUrlsToLinks(text) {
+			return text.replace(
+				/(https?:\/\/[^\s]+)/g,
+				'<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+			);
+		}
+
+		// Function to append a message to the chat window
+		function appendMessage(sender, message, id = null) {
+			const messageDiv = document.createElement('div');
+			messageDiv.classList.add('message');
+			if (id) messageDiv.id = id;
+			if (sender === 'User') {
+				messageDiv.innerHTML = `${message}`;
+			} else {
+				messageDiv.innerHTML = `<span class="${sender}">${sender}:</span> ${message}`;
+			}
+			messagesDiv.appendChild(messageDiv);
+			messagesDiv.scrollTop = messagesDiv.scrollHeight;
+		}
+
+		// Function to send a sample question
+		function sendSampleQuestion(question) {
+			const input = document.getElementById('messageInput');
+			input.value = question;
+			sendMessage();
+		}
+
+		// Function to handle sending messages
+		async function sendMessage() {
+			const input = document.getElementById('messageInput');
+			const userMessage = input.value;
+			if (!userMessage) return;
+
+			appendMessage('User', userMessage);
+			input.value = '';
+
+			const placeholderId = `placeholder-${Date.now()}`;
+			appendMessage('AI Assistant', '<span class="blink">...</span>', placeholderId);
+
+			try {
+				const response = await fetch('/ai/api', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ message: userMessage })
+				});
+				if (!response.ok) throw new Error('Error with API response');
+				const data = await response.json();
+				updateMessage(placeholderId, data.response || 'No response available.');
+			} catch (error) {
+				updateMessage(placeholderId, 'Error connecting to the server.');
+			}
+		}
+
+		// Function to update a specific message by ID
+		function updateMessage(id, newMessage) {
+			const messageDiv = document.getElementById(id);
+			if (messageDiv) messageDiv.innerHTML = `<span class="AI Assistant">AI Assistant:</span> ${convertUrlsToLinks(newMessage)}`;
+		}
+	</script>
+</body>
+</html>
