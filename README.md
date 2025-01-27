@@ -4,7 +4,7 @@ This repository contains a reference implementation of the **Secretary AI** proj
 
 **Live Demo**: Access the chatbot hosted on an Apache server, running on a MacBook here: [https://home.tago.so/ai/](https://home.tago.so/ai/)
 
-!(images/CleanShot%202025-01-27%20at%2023.43.10%402x.png)
+![images/CleanShot%202025-01-27%20at%2023.43.10%402x.png](https://github.com/tagoso/secretary-AI/blob/e7e42d0d5aa8b4f46bcad95a85e96c7fc4737aff/images/CleanShot%202025-01-27%20at%2023.43.10%402x.png)
 
 ---
 
