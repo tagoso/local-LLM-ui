@@ -110,8 +110,8 @@ A friendly AI secretary designed to keep your life organized. This humble yet ef
 
 #### AI Model Integration
 
-- Powered by the **Mistral 7B** language model.
 - Uses a custom Modelfile for behavior and rules configuration.
+- I have confirmed that it runs smoothly on **Mistral 7B**, but you are free to use other models. However, in that case, you will need to make modifications to the Modelfile.
 
 ---
 
