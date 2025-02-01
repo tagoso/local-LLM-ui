@@ -1,6 +1,11 @@
-# Secretary AI
+# local-LLM-ui
 
-This repository contains a reference implementation of the **Secretary AI** project, a lightweight and friendly AI assistant.
+This repository contains a reference implementation of a lightweight and friendly AI assistant, designed to run locally without requiring a GPU or cloud services.
+
+While originally created as a secretary AI, it can be adapted for various other use cases, such as customer support, knowledge retrieval, or general AI-powered interactions. 
+
+Additionally, it supports deployment on an Apache local server, allowing the AI to be accessible over the internet if needed.
+
 
 **Live Demo**: Access the chatbot hosted on an Apache server, running on a MacBook here: [https://home.tago.so/ai/](https://home.tago.so/ai/)
 
